@@ -1,5 +1,6 @@
 import type { OS } from '@/lib/os-detect';
 import type { OutputLine } from '@/components/Terminal/TerminalOutput';
+import type { Locale } from '@/lib/i18n';
 
 export interface CommandContext {
   os: OS;
@@ -7,6 +8,9 @@ export interface CommandContext {
   setCwd: (path: string) => void;
   history: OutputLine[];
   clearHistory: () => void;
+  locale: Locale;
+  setLocale: (l: Locale) => void;
+  t: (key: string) => string;
 }
 
 export type CommandResult =
@@ -34,6 +38,15 @@ export function getCommand(name: string): Command | undefined {
   return registry.get(name.toLowerCase());
 }
 
+export function getAllCommands(): Command[] {
+  const seen = new Set<string>();
+  return [...registry.values()].filter((cmd) => {
+    if (seen.has(cmd.name)) return false;
+    seen.add(cmd.name);
+    return !cmd.hidden;
+  });
+}
+
 export function parseInput(input: string): { name: string; args: string[] } {
   const tokens: string[] = [];
   const regex = /[^\s"]+|"([^"]*)"/g;
@@ -44,7 +57,7 @@ export function parseInput(input: string): { name: string; args: string[] } {
   }
 
   const [name = '', ...args] = tokens;
-  return { name, args };
+  return { name: name.toLowerCase(), args };
 }
 
 registerCommand({

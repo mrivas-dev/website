@@ -88,6 +88,7 @@ export function TerminalOutput({ lines }: TerminalOutputProps) {
     <div
       ref={containerRef}
       className="terminal-output"
+      role="log"
       aria-live="polite"
       aria-label="Terminal output"
     >

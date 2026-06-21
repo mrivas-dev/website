@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { OSProvider } from '@/lib/contexts/OSContext';
+import { LocaleProvider } from '@/lib/contexts/LocaleContext';
 import { ThemeProvider } from '@/lib/contexts/ThemeProvider';
 import { DevToolbar } from '@/components/DevToolbar';
 import './globals.css';
@@ -21,7 +22,9 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <OSProvider>
-          <ThemeProvider>{children}</ThemeProvider>
+          <LocaleProvider>
+            <ThemeProvider>{children}</ThemeProvider>
+          </LocaleProvider>
           <DevToolbar />
         </OSProvider>
       </body>

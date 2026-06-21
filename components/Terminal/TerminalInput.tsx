@@ -88,6 +88,7 @@ export const TerminalInput = forwardRef<TerminalInputHandle, TerminalInputProps>
           ref={inputRef}
           type="text"
           className="terminal-input"
+          inputMode="text"
           value={value}
           onChange={(e) => onChange(e.target.value)}
           onKeyDown={handleKeyDown}
@@ -97,6 +98,7 @@ export const TerminalInput = forwardRef<TerminalInputHandle, TerminalInputProps>
           autoCapitalize="off"
           aria-label="Terminal input"
         />
+        <span className="terminal-cursor" aria-hidden="true" />
       </div>
     );
   },

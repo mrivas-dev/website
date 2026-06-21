@@ -1,7 +1,11 @@
 'use client';
 
+import '@/components/commands';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { Autocomplete } from '@/components/Terminal/Autocomplete';
 import { useOS } from '@/lib/contexts/OSContext';
+import { useLocale } from '@/lib/contexts/LocaleContext';
+import { navigateHistory } from '@/lib/history';
 import { themes } from '@/components/themes';
 import {
   getCommand,
@@ -56,6 +60,7 @@ function resultToLine(result: CommandResult): OutputLine | null {
 
 export function Terminal() {
   const { os, profile } = useOS();
+  const { locale, setLocale, t } = useLocale();
   const inputRef = useRef<TerminalInputHandle>(null);
   const [history, setHistory] = useState<OutputLine[]>([]);
   const [input, setInput] = useState('');
@@ -96,6 +101,9 @@ export function Terminal() {
         setCwd,
         history,
         clearHistory,
+        locale,
+        setLocale,
+        t,
       };
 
       let newLines: OutputLine[] = [inputLine];
@@ -133,32 +141,19 @@ export function Terminal() {
       setInput('');
       focusInput();
     },
-    [os, profile, cwd, history, clearHistory, focusInput],
+    [os, profile, cwd, history, clearHistory, locale, setLocale, t, focusInput],
   );
 
   const handleHistoryUp = useCallback(() => {
-    if (commandHistory.length === 0) return;
-
-    setHistoryIndex((prev) => {
-      const nextIndex = prev === -1 ? commandHistory.length - 1 : Math.max(0, prev - 1);
-      setInput(commandHistory[nextIndex] ?? '');
-      return nextIndex;
-    });
-  }, [commandHistory]);
+    const { index, value } = navigateHistory(commandHistory, historyIndex, 'up');
+    setHistoryIndex(index);
+    setInput(value);
+  }, [commandHistory, historyIndex]);
 
   const handleHistoryDown = useCallback(() => {
-    if (commandHistory.length === 0 || historyIndex === -1) return;
-
-    setHistoryIndex((prev) => {
-      if (prev >= commandHistory.length - 1) {
-        setInput('');
-        return -1;
-      }
-
-      const nextIndex = prev + 1;
-      setInput(commandHistory[nextIndex] ?? '');
-      return nextIndex;
-    });
+    const { index, value } = navigateHistory(commandHistory, historyIndex, 'down');
+    setHistoryIndex(index);
+    setInput(value);
   }, [commandHistory, historyIndex]);
 
   const handleCtrlC = useCallback(() => {
@@ -189,18 +184,25 @@ export function Terminal() {
     <div className="terminal-page" onClick={focusInput}>
       <TerminalWindow os={os} title={title}>
         <TerminalOutput lines={history} />
-        <TerminalInput
-          ref={inputRef}
-          prompt={prompt}
-          value={input}
-          onChange={setInput}
-          onSubmit={handleSubmit}
-          onHistoryUp={handleHistoryUp}
-          onHistoryDown={handleHistoryDown}
-          onTabComplete={() => {}}
-          onCtrlC={handleCtrlC}
-          onCtrlL={handleCtrlL}
-        />
+        <div className="terminal-input-area" style={{ position: 'relative' }}>
+          <Autocomplete
+            input={input}
+            onSelect={setInput}
+            onDismiss={() => {}}
+          />
+          <TerminalInput
+            ref={inputRef}
+            prompt={prompt}
+            value={input}
+            onChange={setInput}
+            onSubmit={handleSubmit}
+            onHistoryUp={handleHistoryUp}
+            onHistoryDown={handleHistoryDown}
+            onTabComplete={() => {}}
+            onCtrlC={handleCtrlC}
+            onCtrlL={handleCtrlL}
+          />
+        </div>
       </TerminalWindow>
     </div>
   );
