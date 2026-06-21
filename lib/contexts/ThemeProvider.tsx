@@ -24,6 +24,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     root.style.setProperty('--terminal-font-size', theme.fontSize);
     root.style.setProperty('--terminal-line-height', theme.lineHeight);
     root.style.setProperty('--terminal-border-radius', theme.borderRadius);
+    root.style.setProperty('--page-wallpaper', `url("${theme.wallpaper}")`);
   }, [os]);
 
   return <>{children}</>;

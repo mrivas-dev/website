@@ -11,6 +11,7 @@ export interface TerminalTheme {
   lineHeight: string;
   borderRadius: string;
   windowTitle: string;
+  wallpaper: string;
 }
 
 export const macosTheme: TerminalTheme = {
@@ -26,4 +27,5 @@ export const macosTheme: TerminalTheme = {
   lineHeight: '1.5',
   borderRadius: '10px',
   windowTitle: 'Terminal',
+  wallpaper: '/images/wallpapers/macos.png',
 };

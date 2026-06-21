@@ -13,4 +13,5 @@ export const linuxTheme: TerminalTheme = {
   lineHeight: '1.5',
   borderRadius: '4px',
   windowTitle: 'Terminal',
+  wallpaper: '/images/wallpapers/linux.jpg',
 };

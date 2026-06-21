@@ -13,4 +13,5 @@ export const windowsTheme: TerminalTheme = {
   lineHeight: '1.5',
   borderRadius: '0px',
   windowTitle: 'Command Prompt',
+  wallpaper: '/images/wallpapers/windows.jpg',
 };

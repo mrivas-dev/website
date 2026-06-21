@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { OSProvider } from '@/lib/contexts/OSContext';
 import { ThemeProvider } from '@/lib/contexts/ThemeProvider';
+import { DevToolbar } from '@/components/DevToolbar';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -21,6 +22,7 @@ export default function RootLayout({
       <body>
         <OSProvider>
           <ThemeProvider>{children}</ThemeProvider>
+          <DevToolbar />
         </OSProvider>
       </body>
     </html>

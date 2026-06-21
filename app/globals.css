@@ -12,6 +12,7 @@
   --terminal-font-size: 14px;
   --terminal-line-height: 1.5;
   --terminal-border-radius: 10px;
+  --page-wallpaper: none;
 }
 
 html,
@@ -19,7 +20,7 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
-  background: #000;
+  background: #000 var(--page-wallpaper) center/cover no-repeat fixed;
   color: var(--terminal-fg);
   font-family: var(--terminal-font-family);
   font-size: var(--terminal-font-size);
