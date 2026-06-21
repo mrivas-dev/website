@@ -15,6 +15,7 @@ interface TerminalInputProps {
   prompt: string;
   value: string;
   onChange: (value: string) => void;
+  onFocus?: () => void;
   onSubmit: (value: string) => void;
   onHistoryUp: () => void;
   onHistoryDown: () => void;
@@ -29,6 +30,7 @@ export const TerminalInput = forwardRef<TerminalInputHandle, TerminalInputProps>
       prompt,
       value,
       onChange,
+      onFocus,
       onSubmit,
       onHistoryUp,
       onHistoryDown,
@@ -87,10 +89,12 @@ export const TerminalInput = forwardRef<TerminalInputHandle, TerminalInputProps>
         <input
           ref={inputRef}
           type="text"
+          role="textbox"
           className="terminal-input"
           inputMode="text"
           value={value}
           onChange={(e) => onChange(e.target.value)}
+          onFocus={onFocus}
           onKeyDown={handleKeyDown}
           spellCheck={false}
           autoComplete="off"

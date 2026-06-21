@@ -16,3 +16,4 @@ import './projects';
 import './contact';
 import './github';
 import './linkedin';
+import './easter-eggs';

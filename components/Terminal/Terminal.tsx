@@ -22,6 +22,13 @@ import {
   TerminalOutput,
   type OutputLine,
 } from '@/components/Terminal/TerminalOutput';
+import {
+  getBootLine,
+  getWelcomeText,
+  getTypingSlice,
+  isTypingComplete,
+  TYPING_INTERVAL_MS,
+} from '@/lib/boot-sequence';
 
 let lineId = 0;
 
@@ -62,11 +69,13 @@ export function Terminal() {
   const { os, profile } = useOS();
   const { locale, setLocale, t } = useLocale();
   const inputRef = useRef<TerminalInputHandle>(null);
+  const hasBooted = useRef(false);
   const [history, setHistory] = useState<OutputLine[]>([]);
   const [input, setInput] = useState('');
   const [cwd, setCwd] = useState('~');
   const [commandHistory, setCommandHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
+  const [showTapHint, setShowTapHint] = useState(true);
 
   const clearHistory = useCallback(() => setHistory([]), []);
 
@@ -77,6 +86,57 @@ export function Terminal() {
   useEffect(() => {
     focusInput();
   }, [focusInput]);
+
+  useEffect(() => {
+    if (!os || hasBooted.current) return;
+    hasBooted.current = true;
+
+    const bootLine: OutputLine = {
+      id: nextLineId(),
+      type: 'system',
+      content: getBootLine(os),
+      timestamp: new Date(),
+    };
+
+    const welcomeText = getWelcomeText(t('ui.bootMessage'), t('ui.welcomeHint'));
+    const typingLineId = nextLineId();
+
+    setHistory([
+      bootLine,
+      {
+        id: typingLineId,
+        type: 'system',
+        content: '',
+        timestamp: new Date(),
+      },
+    ]);
+
+    let charIndex = 0;
+    const interval = setInterval(() => {
+      charIndex += 1;
+      const slice = getTypingSlice(welcomeText, charIndex);
+      setHistory((prev) =>
+        prev.map((line) =>
+          line.id === typingLineId ? { ...line, content: slice } : line,
+        ),
+      );
+      if (isTypingComplete(welcomeText, charIndex)) {
+        clearInterval(interval);
+      }
+    }, TYPING_INTERVAL_MS);
+
+    return () => clearInterval(interval);
+  }, [os, t]);
+
+  const dismissTapHint = useCallback(() => setShowTapHint(false), []);
+
+  const handleInputChange = useCallback(
+    (value: string) => {
+      setInput(value);
+      if (value.length > 0) dismissTapHint();
+    },
+    [dismissTapHint],
+  );
 
   const handleSubmit = useCallback(
     (rawInput: string) => {
@@ -181,7 +241,12 @@ export function Terminal() {
   const prompt = profile.prompt(cwd);
 
   return (
-    <div className="terminal-page" onClick={focusInput}>
+    <div
+      className="terminal-page"
+      role="application"
+      aria-label="Interactive terminal"
+      onClick={focusInput}
+    >
       <TerminalWindow os={os} title={title}>
         <TerminalOutput lines={history} />
         <div className="terminal-input-area" style={{ position: 'relative' }}>
@@ -194,7 +259,8 @@ export function Terminal() {
             ref={inputRef}
             prompt={prompt}
             value={input}
-            onChange={setInput}
+            onChange={handleInputChange}
+            onFocus={dismissTapHint}
             onSubmit={handleSubmit}
             onHistoryUp={handleHistoryUp}
             onHistoryDown={handleHistoryDown}
@@ -202,6 +268,11 @@ export function Terminal() {
             onCtrlC={handleCtrlC}
             onCtrlL={handleCtrlL}
           />
+          {showTapHint && (
+            <div className="tap-hint" aria-hidden="true">
+              {t('ui.tapToType')}
+            </div>
+          )}
         </div>
       </TerminalWindow>
     </div>

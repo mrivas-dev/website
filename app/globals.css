@@ -29,6 +29,7 @@ body {
 
 body {
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 .shell-loading {
@@ -56,6 +57,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100vw;
+  height: 100dvh;
   min-height: 100vh;
   padding: 24px;
   box-sizing: border-box;
@@ -77,6 +80,10 @@ body {
 @media (max-width: 768px) {
   .terminal-chrome {
     display: none;
+  }
+
+  :root {
+    --terminal-font-size: 15px;
   }
 
   .terminal-window {
@@ -233,7 +240,7 @@ body {
 .terminal-line-content {
   margin: 0;
   white-space: pre-wrap;
-  word-break: break-word;
+  word-break: break-all;
   font-family: var(--terminal-font-family);
   font-size: var(--terminal-font-size);
   line-height: var(--terminal-line-height);
@@ -286,9 +293,41 @@ body {
   font-family: var(--terminal-font-family);
   font-size: var(--terminal-font-size);
   line-height: var(--terminal-line-height);
-  caret-color: var(--terminal-fg);
+  caret-color: transparent;
   padding: 0;
   margin: 0;
+}
+
+.terminal-cursor {
+  display: inline-block;
+  width: 0.6em;
+  height: 1.1em;
+  background: var(--terminal-accent);
+  animation: blink 1s step-end infinite;
+  vertical-align: text-bottom;
+  margin-left: 1px;
+  flex-shrink: 0;
+}
+
+.tap-hint {
+  display: none;
+  position: sticky;
+  bottom: 0;
+  padding: 8px 12px;
+  margin-top: 8px;
+  background: rgba(35, 209, 139, 0.15);
+  border: 1px solid var(--terminal-accent);
+  border-radius: 6px;
+  color: var(--terminal-accent);
+  font-size: 13px;
+  text-align: center;
+  pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  .tap-hint {
+    display: block;
+  }
 }
 
 .terminal-input::selection {
