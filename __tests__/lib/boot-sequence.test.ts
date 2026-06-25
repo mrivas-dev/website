@@ -1,5 +1,6 @@
 import {
   getBootLine,
+  getCommandNotFoundMessage,
   getWelcomeText,
   getTypingSlice,
   isTypingComplete,
@@ -17,14 +18,33 @@ describe('getBootLine', () => {
 
   it('returns Linux welcome line', () => {
     const line = getBootLine('linux', fixedDate);
-    expect(line).toContain('Ubuntu');
+    expect(line).toContain('Ubuntu 24.04.2');
     expect(line).toContain('GNU/Linux');
+    expect(line).toContain('help.ubuntu.com');
   });
 
   it('returns Windows version line', () => {
     const line = getBootLine('windows', fixedDate);
     expect(line).toContain('Microsoft Windows');
-    expect(line).toContain('Version');
+    expect(line).toContain('10.0.26100');
+  });
+});
+
+describe('getCommandNotFoundMessage', () => {
+  it('returns zsh-style message on macOS', () => {
+    expect(getCommandNotFoundMessage('macos', 'foo')).toBe(
+      'zsh: command not found: foo',
+    );
+  });
+
+  it('returns linux-style message', () => {
+    expect(getCommandNotFoundMessage('linux', 'foo')).toBe('foo: command not found');
+  });
+
+  it('returns windows-style message', () => {
+    expect(getCommandNotFoundMessage('windows', 'foo')).toBe(
+      "'foo' is not recognized as an internal or external command.",
+    );
   });
 });
 

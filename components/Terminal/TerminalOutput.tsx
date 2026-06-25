@@ -7,6 +7,7 @@ export interface OutputLine {
   type: 'input' | 'output' | 'error' | 'system';
   content: string | ReactNode;
   timestamp: Date;
+  prompt?: string;
 }
 
 interface TerminalOutputProps {
@@ -74,6 +75,18 @@ function renderContent(content: string | ReactNode): ReactNode {
   return parseAnsi(content);
 }
 
+function renderInputLine(line: OutputLine): ReactNode {
+  if (line.prompt !== undefined && typeof line.content === 'string') {
+    return (
+      <>
+        <span className="terminal-prompt">{line.prompt}</span>
+        {line.content}
+      </>
+    );
+  }
+  return renderContent(line.content);
+}
+
 export function TerminalOutput({ lines }: TerminalOutputProps) {
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -95,7 +108,9 @@ export function TerminalOutput({ lines }: TerminalOutputProps) {
       {lines.map((line) => (
         <div key={line.id} className={`terminal-line terminal-line-${line.type}`}>
           {line.type === 'error' && <span className="terminal-error-prefix">✗ </span>}
-          <pre className="terminal-line-content">{renderContent(line.content)}</pre>
+          <pre className="terminal-line-content">
+            {line.type === 'input' ? renderInputLine(line) : renderContent(line.content)}
+          </pre>
         </div>
       ))}
     </div>

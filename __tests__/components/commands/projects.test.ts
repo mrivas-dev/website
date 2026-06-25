@@ -5,7 +5,7 @@ import '@/components/commands/contact';
 import '@/components/commands/github';
 import '@/components/commands/linkedin';
 import { getCommand } from '@/lib/command-registry';
-import { makeCtx, makeRealT } from '../../helpers';
+import { makeCtx, makeRealT, renderJsxText } from '../../helpers';
 
 describe('projects command', () => {
   const cmd = getCommand('projects');
@@ -14,24 +14,25 @@ describe('projects command', () => {
     expect(cmd).toBeDefined();
   });
 
-  it('returns text type', () => {
+  it('returns jsx type', () => {
     const result = cmd!.execute([], makeCtx());
-    expect(result.type).toBe('text');
+    expect(result.type).toBe('jsx');
   });
 
   it('lists projects with numbers', () => {
     const result = cmd!.execute([], makeCtx({ locale: 'en', t: makeRealT('en') }));
-    if (result.type === 'text') {
-      expect(result.content).toContain('[1]');
-      expect(result.content).toContain('[2]');
+    if (result.type === 'jsx') {
+      const text = renderJsxText(result.content);
+      expect(text).toContain('[1]');
+      expect(text).toContain('[2]');
     }
   });
 
   it('includes inspect hint', () => {
     const t = makeRealT('en');
     const result = cmd!.execute([], makeCtx({ locale: 'en', t }));
-    if (result.type === 'text') {
-      expect(result.content).toContain(t('commands.projects.inspect'));
+    if (result.type === 'jsx') {
+      expect(renderJsxText(result.content)).toContain(t('commands.projects.inspect'));
     }
   });
 });
@@ -45,10 +46,11 @@ describe('project command', () => {
 
   it('returns detail for project by number', () => {
     const result = cmd!.execute(['1'], makeCtx({ locale: 'en', t: makeRealT('en') }));
-    expect(result.type).toBe('text');
-    if (result.type === 'text') {
-      expect(result.content).toContain('Ecommerce Platform');
-      expect(result.content).toContain('Next.js');
+    expect(result.type).toBe('jsx');
+    if (result.type === 'jsx') {
+      const text = renderJsxText(result.content);
+      expect(text).toContain('Ecommerce Platform');
+      expect(text).toContain('Next.js');
     }
   });
 
@@ -57,9 +59,9 @@ describe('project command', () => {
       ['ecommerce-platform'],
       makeCtx({ locale: 'en', t: makeRealT('en') }),
     );
-    expect(result.type).toBe('text');
-    if (result.type === 'text') {
-      expect(result.content).toContain('Ecommerce Platform');
+    expect(result.type).toBe('jsx');
+    if (result.type === 'jsx') {
+      expect(renderJsxText(result.content)).toContain('Ecommerce Platform');
     }
   });
 
@@ -68,9 +70,9 @@ describe('project command', () => {
       ['devops dashboard'],
       makeCtx({ locale: 'en', t: makeRealT('en') }),
     );
-    expect(result.type).toBe('text');
-    if (result.type === 'text') {
-      expect(result.content).toContain('DevOps Dashboard');
+    expect(result.type).toBe('jsx');
+    if (result.type === 'jsx') {
+      expect(renderJsxText(result.content)).toContain('DevOps Dashboard');
     }
   });
 

@@ -1,12 +1,13 @@
 'use client';
 
 import '@/components/commands';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Autocomplete } from '@/components/Terminal/Autocomplete';
 import { useOS } from '@/lib/contexts/OSContext';
 import { useLocale } from '@/lib/contexts/LocaleContext';
 import { navigateHistory } from '@/lib/history';
 import { themes } from '@/components/themes';
+import { getAllCommands } from '@/lib/command-registry';
 import {
   getCommand,
   parseInput,
@@ -24,6 +25,7 @@ import {
 } from '@/components/Terminal/TerminalOutput';
 import {
   getBootLine,
+  getCommandNotFoundMessage,
   getWelcomeText,
   getTypingSlice,
   isTypingComplete,
@@ -76,12 +78,23 @@ export function Terminal() {
   const [commandHistory, setCommandHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
   const [showTapHint, setShowTapHint] = useState(true);
+  const [autocompleteIndex, setAutocompleteIndex] = useState(0);
 
   const clearHistory = useCallback(() => setHistory([]), []);
 
   const focusInput = useCallback(() => {
     inputRef.current?.focus();
   }, []);
+
+  const autocompleteMatches = useMemo(() => {
+    const query = input.trim().toLowerCase();
+    if (query.length < 1) return [];
+    return getAllCommands().filter((cmd) => cmd.name.toLowerCase().startsWith(query));
+  }, [input]);
+
+  useEffect(() => {
+    setAutocompleteIndex(0);
+  }, [input]);
 
   useEffect(() => {
     focusInput();
@@ -138,6 +151,13 @@ export function Terminal() {
     [dismissTapHint],
   );
 
+  const handleTabComplete = useCallback(() => {
+    if (autocompleteMatches.length === 0) return;
+    const index = autocompleteIndex % autocompleteMatches.length;
+    setInput(autocompleteMatches[index].name);
+    setAutocompleteIndex((prev) => (prev + 1) % autocompleteMatches.length);
+  }, [autocompleteMatches, autocompleteIndex]);
+
   const handleSubmit = useCallback(
     (rawInput: string) => {
       const trimmed = rawInput.trim();
@@ -147,7 +167,8 @@ export function Terminal() {
       const inputLine: OutputLine = {
         id: nextLineId(),
         type: 'input',
-        content: `${prompt}${rawInput}`,
+        content: rawInput,
+        prompt,
         timestamp: new Date(),
       };
 
@@ -189,7 +210,7 @@ export function Terminal() {
           {
             id: nextLineId(),
             type: 'error',
-            content: `${resolvedName}: command not found`,
+            content: getCommandNotFoundMessage(os, resolvedName),
             timestamp: new Date(),
           },
         ];
@@ -249,9 +270,10 @@ export function Terminal() {
     >
       <TerminalWindow os={os} title={title}>
         <TerminalOutput lines={history} />
-        <div className="terminal-input-area" style={{ position: 'relative' }}>
+        <div className="terminal-input-area">
           <Autocomplete
             input={input}
+            activeIndex={autocompleteIndex}
             onSelect={setInput}
             onDismiss={() => {}}
           />
@@ -264,7 +286,7 @@ export function Terminal() {
             onSubmit={handleSubmit}
             onHistoryUp={handleHistoryUp}
             onHistoryDown={handleHistoryDown}
-            onTabComplete={() => {}}
+            onTabComplete={handleTabComplete}
             onCtrlC={handleCtrlC}
             onCtrlL={handleCtrlL}
           />

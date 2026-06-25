@@ -1,17 +1,26 @@
+import { designTokens } from '@/lib/design-tokens';
 import type { TerminalTheme } from './macos';
 
+const t = designTokens.linux;
+
 export const linuxTheme: TerminalTheme = {
-  background: '#1a0a15',
-  foreground: '#ffffff',
-  accent: '#4e9a06',
-  dimmed: '#555753',
-  error: '#cc0000',
-  success: '#4e9a06',
-  selection: 'rgba(255, 255, 255, 0.12)',
-  fontFamily: "'Ubuntu Mono', 'Fira Code', monospace",
-  fontSize: '14px',
-  lineHeight: '1.5',
-  borderRadius: '4px',
+  background: t.terminal.background,
+  foreground: t.terminal.foreground,
+  accent: t.terminal.prompt,
+  dimmed: t.terminal.dimmed,
+  error: t.terminal.error,
+  success: t.terminal.prompt,
+  selection: t.terminal.selection,
+  fontFamily: t.terminal.fontFamily,
+  fontSize: t.terminal.fontSize,
+  lineHeight: t.terminal.lineHeight,
+  borderRadius: t.window.borderRadius,
   windowTitle: 'Terminal',
   wallpaper: '/images/wallpapers/linux.jpg',
+  link: t.terminal.link,
+  caret: t.terminal.caret,
+  divider: t.terminal.divider,
+  titleBarBackground: t.chrome.titleBarBackground,
+  contentBackground: t.window.contentBackground,
+  windowShadow: t.window.shadow,
 };

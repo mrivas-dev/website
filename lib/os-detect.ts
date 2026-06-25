@@ -17,19 +17,19 @@ export interface OSProfile {
 export const osProfiles: Record<OS, OSProfile> = {
   macos: {
     os: 'macos',
-    prompt: (cwd) => `m@macbook ${cwd} %`,
+    prompt: (cwd) => `mrivas@macbook ${cwd} %`,
     commandAliases: {},
     windowChrome: 'macos',
   },
   linux: {
     os: 'linux',
-    prompt: (cwd) => `m@ubuntu:${cwd}$`,
+    prompt: (cwd) => `mrivas@ubuntu:${cwd}$`,
     commandAliases: {},
     windowChrome: 'linux',
   },
   windows: {
     os: 'windows',
-    prompt: (cwd) => `C:\\Users\\M${cwd}>`,
+    prompt: () => 'PS C:\\Users\\mrivas>',
     commandAliases: { cls: 'clear', dir: 'ls', type: 'cat' },
     windowChrome: 'windows',
   },

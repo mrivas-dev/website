@@ -21,6 +21,7 @@ export function TerminalWindow({ os, title, children }: TerminalWindowProps) {
       style={{
         borderRadius: theme.borderRadius,
         background: theme.background,
+        boxShadow: theme.windowShadow,
       }}
     >
       <div className="terminal-chrome" data-os={chrome}>
@@ -28,7 +29,14 @@ export function TerminalWindow({ os, title, children }: TerminalWindowProps) {
         {chrome === 'linux' && <LinuxChrome title={title} />}
         {chrome === 'windows' && <WindowsChrome title={title} />}
       </div>
-      <div className="terminal-body">{children}</div>
+      <div
+        className="terminal-body"
+        style={{
+          background: theme.contentBackground ?? theme.background,
+        }}
+      >
+        {children}
+      </div>
     </div>
   );
 }
@@ -36,7 +44,7 @@ export function TerminalWindow({ os, title, children }: TerminalWindowProps) {
 function MacOSChrome({ title }: { title: string }) {
   return (
     <div className="chrome-bar chrome-bar-macos">
-      <div className="chrome-traffic-lights">
+      <div className="chrome-traffic-lights" aria-hidden="true">
         <span className="traffic-light traffic-light-red" />
         <span className="traffic-light traffic-light-yellow" />
         <span className="traffic-light traffic-light-green" />
@@ -50,7 +58,7 @@ function LinuxChrome({ title }: { title: string }) {
   return (
     <div className="chrome-bar chrome-bar-linux">
       <span className="chrome-title chrome-title-left">{title}</span>
-      <div className="chrome-linux-controls">
+      <div className="chrome-linux-controls" aria-hidden="true">
         <span className="linux-btn linux-btn-neutral" />
         <span className="linux-btn linux-btn-close" />
       </div>
@@ -62,11 +70,7 @@ function WindowsChrome({ title }: { title: string }) {
   return (
     <div className="chrome-bar chrome-bar-windows">
       <span className="chrome-title chrome-title-left">{title}</span>
-      <div className="chrome-windows-controls">
-        <span className="win-btn">—</span>
-        <span className="win-btn">□</span>
-        <span className="win-btn win-btn-close">✕</span>
-      </div>
+      <span className="win-btn-close-block" aria-hidden="true" />
     </div>
   );
 }

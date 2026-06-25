@@ -61,7 +61,7 @@ describe('OSContext', () => {
     await waitFor(() => {
       expect(screen.getByTestId('os')).toHaveTextContent('macos');
     });
-    expect(screen.getByTestId('prompt')).toHaveTextContent('m@macbook ~ %');
+    expect(screen.getByTestId('prompt')).toHaveTextContent('mrivas@macbook ~ %');
   });
 
   it('respects localStorage override on mount', async () => {
@@ -76,7 +76,7 @@ describe('OSContext', () => {
     await waitFor(() => {
       expect(screen.getByTestId('os')).toHaveTextContent('linux');
     });
-    expect(screen.getByTestId('prompt')).toHaveTextContent('m@ubuntu:~$');
+    expect(screen.getByTestId('prompt')).toHaveTextContent('mrivas@ubuntu:~$');
   });
 
   it('setOverrideOS updates context and localStorage', async () => {

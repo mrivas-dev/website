@@ -1,8 +1,12 @@
 import React from 'react';
 import { registerCommand } from '@/lib/command-registry';
 import { contact } from '@/lib/content/contact';
-
-const linkStyle = { color: 'var(--terminal-accent)' };
+import {
+  OutputBody,
+  OutputCard,
+  OutputLink,
+  OutputMeta,
+} from '@/components/Terminal/OutputCard';
 
 registerCommand({
   name: 'contact',
@@ -10,36 +14,20 @@ registerCommand({
   execute: (_args, ctx) => ({
     type: 'jsx',
     content: (
-      <div>
-        <div>
+      <OutputCard>
+        <OutputBody>
           {ctx.t('commands.contact.email').padEnd(10)}
-          <a href={`mailto:${contact.email}`} style={linkStyle}>
-            {contact.email}
-          </a>
-        </div>
-        <div>
+          <OutputLink href={`mailto:${contact.email}`}>{contact.email}</OutputLink>
+        </OutputBody>
+        <OutputMeta>
           {ctx.t('commands.contact.linkedin').padEnd(10)}
-          <a
-            href={`https://${contact.linkedin}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={linkStyle}
-          >
-            {contact.linkedin}
-          </a>
-        </div>
-        <div>
+          <OutputLink href={`https://${contact.linkedin}`}>{contact.linkedin}</OutputLink>
+        </OutputMeta>
+        <OutputMeta>
           {ctx.t('commands.contact.github').padEnd(10)}
-          <a
-            href={`https://${contact.github}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={linkStyle}
-          >
-            {contact.github}
-          </a>
-        </div>
-      </div>
+          <OutputLink href={`https://${contact.github}`}>{contact.github}</OutputLink>
+        </OutputMeta>
+      </OutputCard>
     ),
   }),
 });

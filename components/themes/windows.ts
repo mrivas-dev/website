@@ -1,17 +1,26 @@
+import { designTokens } from '@/lib/design-tokens';
 import type { TerminalTheme } from './macos';
 
+const t = designTokens.windows;
+
 export const windowsTheme: TerminalTheme = {
-  background: '#0c0c0c',
-  foreground: '#cccccc',
-  accent: '#cccccc',
-  dimmed: '#808080',
-  error: '#ff6b6b',
+  background: t.terminal.background,
+  foreground: t.terminal.foreground,
+  accent: t.terminal.prompt,
+  dimmed: t.terminal.dimmed,
+  error: t.terminal.error,
   success: '#16c60c',
-  selection: 'rgba(255, 255, 255, 0.12)',
-  fontFamily: "Consolas, 'Cascadia Code', monospace",
-  fontSize: '14px',
-  lineHeight: '1.5',
-  borderRadius: '0px',
-  windowTitle: 'Command Prompt',
+  selection: t.terminal.selection,
+  fontFamily: t.terminal.fontFamily,
+  fontSize: t.terminal.fontSize,
+  lineHeight: t.terminal.lineHeight,
+  borderRadius: t.window.borderRadius,
+  windowTitle: 'Windows PowerShell',
   wallpaper: '/images/wallpapers/windows.jpg',
+  link: t.terminal.link,
+  caret: t.terminal.caret,
+  divider: t.terminal.divider,
+  titleBarBackground: t.chrome.titleBarBackground,
+  contentBackground: t.window.contentBackground,
+  windowShadow: t.window.shadow,
 };

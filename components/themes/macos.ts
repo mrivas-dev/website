@@ -1,3 +1,5 @@
+import { designTokens } from '@/lib/design-tokens';
+
 export interface TerminalTheme {
   background: string;
   foreground: string;
@@ -12,20 +14,34 @@ export interface TerminalTheme {
   borderRadius: string;
   windowTitle: string;
   wallpaper: string;
+  link: string;
+  caret: string;
+  divider: string;
+  titleBarBackground: string;
+  contentBackground: string | null;
+  windowShadow: string;
 }
 
+const t = designTokens.macos;
+
 export const macosTheme: TerminalTheme = {
-  background: '#1e1e1e',
-  foreground: '#f8f8f2',
-  accent: '#23d18b',
-  dimmed: '#6c6c6c',
-  error: '#ff5555',
+  background: t.terminal.background,
+  foreground: t.terminal.foreground,
+  accent: t.terminal.prompt,
+  dimmed: t.terminal.dimmed,
+  error: t.terminal.error,
   success: '#50fa7b',
-  selection: 'rgba(255, 255, 255, 0.15)',
-  fontFamily: "'SF Mono', Menlo, monospace",
-  fontSize: '14px',
-  lineHeight: '1.5',
-  borderRadius: '10px',
+  selection: t.terminal.selection,
+  fontFamily: t.terminal.fontFamily,
+  fontSize: t.terminal.fontSize,
+  lineHeight: t.terminal.lineHeight,
+  borderRadius: t.window.borderRadius,
   windowTitle: 'Terminal',
   wallpaper: '/images/wallpapers/macos.png',
+  link: t.terminal.link,
+  caret: t.terminal.caret,
+  divider: t.terminal.divider,
+  titleBarBackground: t.chrome.titleBarBackground,
+  contentBackground: t.window.contentBackground,
+  windowShadow: t.window.shadow,
 };
