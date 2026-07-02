@@ -2,7 +2,7 @@ import type { Translations } from './types';
 
 const en: Translations = {
   ui: {
-    windowTitle: 'Terminal Portfolio',
+    windowTitle: 'MRivas Dev',
     bootMessage: 'System ready.',
     welcomeHint: 'Type "help" to see available commands.',
     inputPlaceholder: 'Enter command...',

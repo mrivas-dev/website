@@ -6,7 +6,7 @@ import { DevToolbar } from '@/components/DevToolbar';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Terminal Portfolio',
+  title: 'MRivas Dev',
   description: 'Adaptive terminal portfolio experience',
   icons: {
     icon: '/favicon.svg',
@@ -24,8 +24,8 @@ export default function RootLayout({
         <OSProvider>
           <LocaleProvider>
             <ThemeProvider>{children}</ThemeProvider>
+            <DevToolbar />
           </LocaleProvider>
-          <DevToolbar />
         </OSProvider>
       </body>
     </html>

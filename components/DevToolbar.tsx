@@ -3,12 +3,19 @@
 import { useEffect, useRef, useState } from 'react';
 import { type OS } from '@/lib/os-detect';
 import { useOS } from '@/lib/contexts/OSContext';
+import { useLocale } from '@/lib/contexts/LocaleContext';
+import { type Locale } from '@/lib/i18n';
 import { isDevelopment } from '@/lib/is-dev';
 
 const OS_OPTIONS: { value: OS; label: string }[] = [
   { value: 'macos', label: 'MacOS' },
   { value: 'linux', label: 'LinuxOS' },
   { value: 'windows', label: 'WindowsOS' },
+];
+
+const LOCALE_OPTIONS: { value: Locale; label: string }[] = [
+  { value: 'en', label: 'EN' },
+  { value: 'es', label: 'ES' },
 ];
 
 function GearIcon() {
@@ -52,8 +59,20 @@ function OSIcon({ os }: { os: OS }) {
   );
 }
 
+function LocaleIcon({ locale }: { locale: Locale }) {
+  return (
+    <span
+      aria-hidden="true"
+      className="flex h-6 w-6 items-center justify-center rounded bg-white/10 text-xs font-semibold text-white"
+    >
+      {locale.toUpperCase()}
+    </span>
+  );
+}
+
 export function DevToolbar() {
   const { os, setOverrideOS } = useOS();
+  const { locale, setLocale } = useLocale();
   const [expanded, setExpanded] = useState(false);
   const [visible, setVisible] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
@@ -84,6 +103,16 @@ export function DevToolbar() {
     setExpanded(false);
   };
 
+  const handleLocaleSelect = (value: Locale) => {
+    setLocale(value);
+    setExpanded(false);
+  };
+
+  const menuItemClass = (selected: boolean) =>
+    `flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm text-white transition-colors hover:bg-white/10 ${
+      selected ? 'bg-blue-500/20 ring-1 ring-blue-400/60' : ''
+    }`;
+
   return (
     <div ref={rootRef} className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">
       {expanded && (
@@ -101,12 +130,33 @@ export function DevToolbar() {
                     type="button"
                     role="menuitem"
                     aria-current={selected ? 'true' : undefined}
-                    className={`flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm text-white transition-colors hover:bg-white/10 ${
-                      selected ? 'bg-blue-500/20 ring-1 ring-blue-400/60' : ''
-                    }`}
+                    className={menuItemClass(selected)}
                     onClick={() => handleSelect(option.value)}
                   >
                     <OSIcon os={option.value} />
+                    <span>{option.label}</span>
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+
+          <div aria-hidden="true" className="my-2 border-t border-white/10" />
+
+          <ul className="flex flex-col gap-1">
+            {LOCALE_OPTIONS.map((option) => {
+              const selected = locale === option.value;
+
+              return (
+                <li key={option.value}>
+                  <button
+                    type="button"
+                    role="menuitem"
+                    aria-current={selected ? 'true' : undefined}
+                    className={menuItemClass(selected)}
+                    onClick={() => handleLocaleSelect(option.value)}
+                  >
+                    <LocaleIcon locale={option.value} />
                     <span>{option.label}</span>
                   </button>
                 </li>

@@ -5,6 +5,7 @@ import { OSProvider } from '@/lib/contexts/OSContext';
 
 const mockIsDevelopment = jest.fn();
 const mockSetOverrideOS = jest.fn();
+const mockSetLocale = jest.fn();
 
 jest.mock('@/lib/is-dev', () => ({
   isDevelopment: () => mockIsDevelopment(),
@@ -22,6 +23,14 @@ jest.mock('@/lib/contexts/OSContext', () => {
   };
 });
 
+jest.mock('@/lib/contexts/LocaleContext', () => ({
+  useLocale: () => ({
+    locale: 'en',
+    setLocale: mockSetLocale,
+    t: (key: string) => key,
+  }),
+}));
+
 function renderToolbar() {
   return render(
     <OSProvider>
@@ -34,6 +43,7 @@ describe('DevToolbar', () => {
   beforeEach(() => {
     mockIsDevelopment.mockReset();
     mockSetOverrideOS.mockReset();
+    mockSetLocale.mockReset();
   });
 
   it('renders null when not in development', () => {
@@ -133,5 +143,53 @@ describe('DevToolbar', () => {
     expect(
       screen.getByRole('menuitem', { name: /windowsos/i }).querySelector('img'),
     ).toHaveAttribute('src', '/images/icons/windows.png');
+  });
+
+  it('renders language options when expanded', async () => {
+    mockIsDevelopment.mockReturnValue(true);
+    const user = userEvent.setup();
+
+    renderToolbar();
+
+    await user.click(screen.getByRole('button', { name: /dev toolbar settings/i }));
+
+    expect(screen.getByRole('menuitem', { name: /^en$/i })).toBeInTheDocument();
+    expect(screen.getByRole('menuitem', { name: /^es$/i })).toBeInTheDocument();
+  });
+
+  it('calls setLocale when language option clicked', async () => {
+    mockIsDevelopment.mockReturnValue(true);
+    const user = userEvent.setup();
+
+    renderToolbar();
+
+    await user.click(screen.getByRole('button', { name: /dev toolbar settings/i }));
+    await user.click(screen.getByRole('menuitem', { name: /^es$/i }));
+
+    expect(mockSetLocale).toHaveBeenCalledWith('es');
+    expect(screen.queryByRole('menu')).not.toBeInTheDocument();
+  });
+
+  it('shows visual indicator for current language', async () => {
+    mockIsDevelopment.mockReturnValue(true);
+    const user = userEvent.setup();
+
+    renderToolbar();
+
+    await user.click(screen.getByRole('button', { name: /dev toolbar settings/i }));
+
+    expect(screen.getByRole('menuitem', { name: /^en$/i })).toHaveAttribute('aria-current', 'true');
+  });
+
+  it('renders language badges in the expanded menu', async () => {
+    mockIsDevelopment.mockReturnValue(true);
+    const user = userEvent.setup();
+
+    renderToolbar();
+
+    await user.click(screen.getByRole('button', { name: /dev toolbar settings/i }));
+
+    expect(screen.getByRole('menuitem', { name: /^en$/i })).toHaveTextContent('EN');
+    expect(screen.getByRole('menuitem', { name: /^es$/i })).toHaveTextContent('ES');
   });
 });
