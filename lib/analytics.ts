@@ -24,7 +24,7 @@ export function trackEvent(
   if (!process.env.NEXT_PUBLIC_ANALYTICS_URL) return;
 
   const body = {
-    session_id: sessionId,
+    sessionId,
     type,
     os: OS_MAP[os],
     device_type: getDeviceType(),

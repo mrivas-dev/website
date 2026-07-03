@@ -88,14 +88,14 @@ describe('trackEvent', () => {
     expect(mockFetch).not.toHaveBeenCalled();
   });
 
-  it('includes session_id, type, device_type, and payload in the body', async () => {
+  it('includes sessionId, type, device_type, and payload in the body', async () => {
     process.env.NEXT_PUBLIC_ANALYTICS_URL = ANALYTICS_URL;
     const { trackEvent } = await import('@/lib/analytics');
 
     trackEvent('macos', 'command', { command: 'projects', args: '--full' });
 
     const body = JSON.parse((mockFetch.mock.calls[0]![1] as RequestInit).body as string);
-    expect(body.session_id).toBe('550e8400-e29b-41d4-a716-446655440000');
+    expect(body.sessionId).toBe('550e8400-e29b-41d4-a716-446655440000');
     expect(body.type).toBe('command');
     expect(body.device_type).toMatch(/^(desktop|mobile)$/);
     expect(body.payload).toEqual({ command: 'projects', args: '--full' });
