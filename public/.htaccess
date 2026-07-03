@@ -2,6 +2,14 @@
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
+  # Reverse-proxy API calls to the Laravel backend (Docker on host port 8081).
+  # Must come before the static-file rules so /api never resolves to the filesystem.
+  # Guarded by mod_proxy: if that module isn't loaded, the block is skipped and the
+  # static site keeps serving normally instead of throwing 500s.
+  <IfModule mod_proxy.c>
+    RewriteRule ^api/(.*)$ http://127.0.0.1:8081/api/$1 [P,L,QSA]
+  </IfModule>
+
   # Serve existing files and directories as-is.
   RewriteCond %{REQUEST_FILENAME} -f [OR]
   RewriteCond %{REQUEST_FILENAME} -d
