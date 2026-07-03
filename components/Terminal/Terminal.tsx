@@ -31,6 +31,7 @@ import {
   isTypingComplete,
   TYPING_INTERVAL_MS,
 } from '@/lib/boot-sequence';
+import { trackEvent } from '@/lib/analytics';
 
 let lineId = 0;
 
@@ -104,6 +105,10 @@ export function Terminal() {
     if (!os || hasBooted.current) return;
     hasBooted.current = true;
 
+    trackEvent(os, 'session_start', {
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+    });
+
     const bootLine: OutputLine = {
       id: nextLineId(),
       type: 'system',
@@ -140,6 +145,25 @@ export function Terminal() {
 
     return () => clearInterval(interval);
   }, [os, t]);
+
+  useEffect(() => {
+    if (!os) return;
+    const startTime = Date.now();
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'hidden') {
+        trackEvent(os, 'session_end', {
+          duration_seconds: Math.round((Date.now() - startTime) / 1000),
+        });
+      }
+    };
+
+    window.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      window.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, [os]);
 
   const dismissTapHint = useCallback(() => setShowTapHint(false), []);
 
@@ -189,7 +213,18 @@ export function Terminal() {
 
       let newLines: OutputLine[] = [inputLine];
 
+      const VIEW_COMMANDS = new Set(['resume', 'projects', 'contact', 'about', 'skills', 'experience']);
+
       if (command) {
+        trackEvent(os, 'command', {
+          command: resolvedName,
+          args: args.join(' ') || undefined,
+        });
+
+        if (VIEW_COMMANDS.has(resolvedName)) {
+          trackEvent(os, 'page_view', { view: resolvedName });
+        }
+
         const result = command.execute(args, ctx);
         if (result.type === 'clear') {
           setHistory([]);
@@ -205,6 +240,11 @@ export function Terminal() {
           newLines = [...newLines, outputLine];
         }
       } else {
+        trackEvent(os, 'command', {
+          command: '__unknown__',
+          args: resolvedName,
+        });
+
         newLines = [
           ...newLines,
           {
