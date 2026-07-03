@@ -30,6 +30,8 @@ jobs:
 
       - name: Build static export
         run: npm run build
+        env:
+          NEXT_PUBLIC_ANALYTICS_URL: ${{ vars.NEXT_PUBLIC_ANALYTICS_URL || 'https://new.mrivas.dev/api/v1/events' }}
 
       - name: Configure SSH
         run: |
