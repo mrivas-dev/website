@@ -10,19 +10,19 @@ export interface AboutContent {
 
 export const about: Record<Locale, AboutContent> = {
   en: {
-    name: 'Matias Rivas',
-    role: 'Engineering Manager',
+    name: 'Matías Rivas',
+    role: 'Software Engineering Manager',
     yearsOfExperience: 10,
-    intro: 'Hi, I\'m Matias — I lead engineering teams building products that scale.',
+    intro: "Hi, I'm Matías — Software Engineering Manager leading teams that build scalable products.",
     summary:
-      'I combine hands-on technical depth with people leadership to ship reliable software. Over the past decade I\'ve grown teams, defined roadmaps, and delivered platforms used by thousands of users.',
+      "Restless software engineer with over 10 years of hands-on experience in frontend development, primarily using JavaScript-based libraries and frameworks (ReactJS, Angular), but also enjoying challenges across Backend and DevOps. Currently at one of the leading SaaS companies, managing projects to success while helping teams grow. I excel in environments that foster innovation, collaboration, and continuous improvement, leading teams to deliver high-quality, scalable applications.",
   },
   es: {
-    name: 'Matias Rivas',
-    role: 'Gerente de Ingeniería',
+    name: 'Matías Rivas',
+    role: 'Software Engineering Manager',
     yearsOfExperience: 10,
-    intro: 'Hola, soy Matias — lidero equipos de ingeniería que construyen productos que escalan.',
+    intro: 'Hola, soy Matías — Software Engineering Manager liderando equipos que construyen productos escalables.',
     summary:
-      'Combino profundidad técnica con liderazgo de personas para entregar software confiable. En la última década he hecho crecer equipos, definido roadmaps y lanzado plataformas usadas por miles de usuarios.',
+      'Ingeniero de software inquieto con más de 10 años de experiencia práctica en desarrollo frontend, principalmente con librerías y frameworks basados en JavaScript (ReactJS, Angular), pero también disfrutando desafíos en Backend y DevOps. Actualmente en una de las principales empresas SaaS, gestionando proyectos con éxito mientras ayudo a los equipos a crecer. Destaco en entornos que fomentan la innovación, la colaboración y la mejora continua, liderando equipos para entregar aplicaciones escalables y de alta calidad.',
   },
 };

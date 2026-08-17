@@ -31,7 +31,7 @@ registerCommand({
         content: (
           <OutputCard>
             {roles.map((role, index) => (
-              <div key={role.company}>
+              <div key={`${role.company}-${role.title.en}-${role.startYear}`}>
                 <OutputDivider />
                 <OutputHeading>
                   {role.company} — {role.title[ctx.locale]}
@@ -55,7 +55,7 @@ registerCommand({
       content: (
         <OutputCard>
           {roles.map((role) => (
-            <OutputBody key={role.company}>
+            <OutputBody key={`${role.company}-${role.title.en}-${role.startYear}`}>
               {'  '}
               {role.company}  {role.title[ctx.locale]}  {formatYearRange(role.startYear, role.endYear, present)}
             </OutputBody>

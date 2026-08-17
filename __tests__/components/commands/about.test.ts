@@ -18,8 +18,8 @@ describe('about command', () => {
     const result = cmd!.execute([], makeCtx({ locale: 'en', t: makeRealT('en') }));
     if (result.type === 'jsx') {
       const text = renderJsxText(result.content);
-      expect(text).toContain('Matias Rivas');
-      expect(text).toContain('Engineering Manager');
+      expect(text).toContain('Matías Rivas');
+      expect(text).toContain('Software Engineering Manager');
     }
   });
 
