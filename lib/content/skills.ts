@@ -8,18 +8,22 @@ export interface SkillGroup {
 export const skills: SkillGroup[] = [
   {
     category: { en: 'Languages', es: 'Lenguajes' },
-    skills: ['JavaScript', 'TypeScript', 'Java', 'Python'],
+    skills: ['JavaScript', 'TypeScript', 'PHP', 'ECMAScript'],
   },
   {
     category: { en: 'Frontend', es: 'Frontend' },
-    skills: ['React', 'Next.js', 'Tailwind CSS'],
+    skills: ['React', 'Angular', 'Redux', 'Material Design', 'Bootstrap'],
   },
   {
     category: { en: 'Backend', es: 'Backend' },
-    skills: ['Node.js', 'Spring Boot', 'REST', 'GraphQL'],
+    skills: ['Node.js', 'GraphQL', 'Laravel', 'MySQL'],
   },
   {
     category: { en: 'Leadership', es: 'Liderazgo' },
-    skills: ['Engineering Management', 'Mentoring', 'Roadmaps', 'Hiring'],
+    skills: ['Engineering Management', 'Team Leadership', 'Mentoring', 'Agile', 'Hiring'],
+  },
+  {
+    category: { en: 'Tools & Practices', es: 'Herramientas y Prácticas' },
+    skills: ['Git', 'TDD', 'Micro Frontends', 'Code Review', 'Scrum'],
   },
 ];

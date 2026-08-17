@@ -49,30 +49,30 @@ describe('project command', () => {
     expect(result.type).toBe('jsx');
     if (result.type === 'jsx') {
       const text = renderJsxText(result.content);
-      expect(text).toContain('Ecommerce Platform');
-      expect(text).toContain('Next.js');
+      expect(text).toContain('AppDirect Marketplace');
+      expect(text).toContain('React');
     }
   });
 
   it('returns detail for project by slug', () => {
     const result = cmd!.execute(
-      ['ecommerce-platform'],
+      ['appdirect-marketplace'],
       makeCtx({ locale: 'en', t: makeRealT('en') }),
     );
     expect(result.type).toBe('jsx');
     if (result.type === 'jsx') {
-      expect(renderJsxText(result.content)).toContain('Ecommerce Platform');
+      expect(renderJsxText(result.content)).toContain('AppDirect Marketplace');
     }
   });
 
   it('returns detail for project by name (case-insensitive)', () => {
     const result = cmd!.execute(
-      ['devops dashboard'],
+      ['appdirect micro frontends'],
       makeCtx({ locale: 'en', t: makeRealT('en') }),
     );
     expect(result.type).toBe('jsx');
     if (result.type === 'jsx') {
-      expect(renderJsxText(result.content)).toContain('DevOps Dashboard');
+      expect(renderJsxText(result.content)).toContain('AppDirect Micro Frontends');
     }
   });
 
@@ -104,7 +104,7 @@ describe('github command', () => {
   it('opens github URL in new tab', () => {
     cmd!.execute([], makeCtx({ locale: 'en', t: makeRealT('en') }));
     expect(global.open).toHaveBeenCalledWith(
-      'https://github.com/matiasemrivas',
+      'https://github.com/mrivas-dev',
       '_blank',
     );
   });
@@ -129,7 +129,7 @@ describe('linkedin command', () => {
   it('opens linkedin URL in new tab', () => {
     cmd!.execute([], makeCtx({ locale: 'en', t: makeRealT('en') }));
     expect(global.open).toHaveBeenCalledWith(
-      'https://linkedin.com/in/matiasrivas',
+      'https://linkedin.com/in/matiasrivasdev',
       '_blank',
     );
   });

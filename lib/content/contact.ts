@@ -1,5 +1,5 @@
 export const contact = {
-  email: 'hello@matias.dev',
-  linkedin: 'linkedin.com/in/matiasrivas',
-  github: 'github.com/matiasemrivas',
+  email: 'matiasemrivas@gmail.com',
+  linkedin: 'linkedin.com/in/matiasrivasdev',
+  github: 'github.com/mrivas-dev',
 };

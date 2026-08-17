@@ -11,88 +11,146 @@ export interface Role {
 
 export const experience: Role[] = [
   {
-    company: 'TechCorp',
-    title: { en: 'Engineering Manager', es: 'Gerente de Ingeniería' },
-    startYear: 2021,
+    company: 'AppDirect',
+    title: { en: 'Engineering Manager', es: 'Engineering Manager' },
+    startYear: 2024,
     endYear: 'Present',
     description: {
-      en: 'Lead a team of 12 engineers across platform and product squads.',
-      es: 'Lidero un equipo de 12 ingenieros en squads de plataforma y producto.',
+      en: 'Leading engineering teams building AppDirect\'s multi-category B2B platform.',
+      es: 'Lidero equipos de ingeniería construyendo la plataforma B2B multicategoría de AppDirect.',
     },
     bullets: {
       en: [
-        'Scaled the platform to handle 3x traffic growth',
-        'Reduced incident rate by 40% through SRE practices',
-        'Hired and mentored 8 engineers in two years',
+        'Collaborate with product and design to define the technical vision and roadmap',
+        'Lead and mentor a team of backend, frontend, and quality engineers',
+        'Drive adoption of micro frontends and front-end best practices',
       ],
       es: [
-        'Escalé la plataforma para soportar 3x más tráfico',
-        'Reduje incidentes un 40% con prácticas SRE',
-        'Contraté y mentoré a 8 ingenieros en dos años',
+        'Colaboro con producto y diseño para definir la visión técnica y el roadmap',
+        'Lidero y mentoré un equipo de ingenieros backend, frontend y calidad',
+        'Impulso la adopción de micro frontends y mejores prácticas frontend',
       ],
     },
   },
   {
-    company: 'StartupXYZ',
-    title: { en: 'Senior Software Engineer', es: 'Ingeniero de Software Senior' },
-    startYear: 2018,
+    company: 'AppDirect',
+    title: { en: 'Lead Frontend', es: 'Lead Frontend' },
+    startYear: 2021,
+    endYear: 2024,
+    description: {
+      en: 'Front End Tech Lead driving front-end solutions and team growth.',
+      es: 'Tech Lead Frontend impulsando soluciones frontend y crecimiento del equipo.',
+    },
+    bullets: {
+      en: [
+        'Led a team of 4: 2 frontend devs, 1 backend dev, and 1 QA engineer',
+        'Architected front-end solutions using ReactJS and TypeScript',
+        'Drove code quality through reviews, testing, and continuous integration',
+      ],
+      es: [
+        'Lideré un equipo de 4: 2 devs frontend, 1 dev backend y 1 QA',
+        'Diseñé soluciones frontend con ReactJS y TypeScript',
+        'Impulsé la calidad de código mediante revisiones, testing e integración continua',
+      ],
+    },
+  },
+  {
+    company: 'AppDirect',
+    title: { en: 'Full Stack Engineer', es: 'Full Stack Engineer' },
+    startYear: 2020,
     endYear: 2021,
     description: {
-      en: 'Full-stack engineer on the core product team.',
-      es: 'Ingeniero full-stack en el equipo de producto principal.',
+      en: 'Fullstack engineer on the core subscription commerce platform.',
+      es: 'Ingeniero fullstack en la plataforma principal de comercio de suscripciones.',
     },
     bullets: {
       en: [
-        'Built the payments microservice from scratch',
-        'Led migration from monolith to microservices',
-        'Introduced automated testing across the codebase',
+        'Built reusable ReactJS components and applied Test-Driven Development',
+        'Contributed to the company private ReactJS component repository',
+        'Worked closely with UX/UI designers to develop new components',
       ],
       es: [
-        'Construí el microservicio de pagos desde cero',
-        'Lideré la migración de monolito a microservicios',
-        'Introduje pruebas automatizadas en todo el código',
+        'Construí componentes reutilizables en ReactJS y apliqué Test-Driven Development',
+        'Contribuí al repositorio privado de componentes ReactJS de la empresa',
+        'Trabajé con diseñadores UX/UI en el desarrollo de nuevos componentes',
       ],
     },
   },
   {
-    company: 'AgencyCo',
-    title: { en: 'Software Engineer', es: 'Ingeniero de Software' },
-    startYear: 2015,
-    endYear: 2018,
+    company: 'Digital House',
+    title: { en: 'Front End Professor', es: 'Profesor Front End' },
+    startYear: 2022,
+    endYear: 2022,
     description: {
-      en: 'Delivered client projects across fintech and e-commerce.',
-      es: 'Entregué proyectos para clientes en fintech y e-commerce.',
+      en: 'Taught front-end specialization courses at Digital House.',
+      es: 'Enseñé cursos de especialización front-end en Digital House.',
     },
     bullets: {
       en: [
-        'Shipped 15+ client projects on time and on budget',
-        'Built reusable component library adopted by 5 teams',
-        'Mentored junior developers on best practices',
+        'Taught ReactJS, TypeScript, Redux, Redux Thunk, Testing Library, Git, and ECMAScript',
       ],
       es: [
-        'Entregué más de 15 proyectos a tiempo y dentro del presupuesto',
-        'Construí biblioteca de componentes reutilizable adoptada por 5 equipos',
-        'Mentoré a desarrolladores junior en buenas prácticas',
+        'Enseñé ReactJS, TypeScript, Redux, Redux Thunk, Testing Library, Git y ECMAScript',
       ],
     },
   },
   {
-    company: 'UniLab',
-    title: { en: 'Junior Developer', es: 'Desarrollador Junior' },
-    startYear: 2013,
-    endYear: 2015,
+    company: 'BTCJ',
+    title: { en: 'Full Stack Engineer', es: 'Full Stack Engineer' },
+    startYear: 2019,
+    endYear: 2021,
     description: {
-      en: 'Research lab software for data visualization.',
-      es: 'Software de laboratorio de investigación para visualización de datos.',
+      en: 'Full-stack development across client projects.',
+      es: 'Desarrollo full-stack en proyectos para clientes.',
     },
     bullets: {
       en: [
-        'Developed interactive dashboards for research datasets',
-        'Contributed to open-source visualization library',
+        'Full-stack development with ReactJS on the frontend and Node.js on the backend',
+        'Styled applications using the Bootstrap framework',
       ],
       es: [
-        'Desarrollé dashboards interactivos para conjuntos de datos de investigación',
-        'Contribuí a una biblioteca open-source de visualización',
+        'Desarrollo full-stack con ReactJS en el frontend y Node.js en el backend',
+        'Estilé aplicaciones usando el framework Bootstrap',
+      ],
+    },
+  },
+  {
+    company: 'EcomExperts',
+    title: { en: 'Front-end Developer', es: 'Desarrollador Front-end' },
+    startYear: 2019,
+    endYear: 2020,
+    description: {
+      en: 'Front-end developer building client web applications.',
+      es: 'Desarrollador front-end construyendo aplicaciones web para clientes.',
+    },
+    bullets: {
+      en: [
+        'Front-end development with Angular 7.x and Material Design',
+        'Consumed and extended a GraphQL / Node.js API',
+      ],
+      es: [
+        'Desarrollo frontend con Angular 7.x y Material Design',
+        'Consumí y extendí una API GraphQL / Node.js',
+      ],
+    },
+  },
+  {
+    company: 'Tres Erres Software',
+    title: { en: 'Full-stack Developer', es: 'Desarrollador Full stack' },
+    startYear: 2017,
+    endYear: 2019,
+    description: {
+      en: 'Built websites from scratch with direct client contact.',
+      es: 'Construí sitios web desde cero con contacto directo con el cliente.',
+    },
+    bullets: {
+      en: [
+        'Front-end with Angular 4.x / 6.x / 7.x and Material Design',
+        'Back-end with SLIM PHP (as an API) then Laravel PHP; MySQL database',
+      ],
+      es: [
+        'Frontend con Angular 4.x / 6.x / 7.x y Material Design',
+        'Backend con SLIM PHP (como API) y luego Laravel PHP; base de datos MySQL',
       ],
     },
   },

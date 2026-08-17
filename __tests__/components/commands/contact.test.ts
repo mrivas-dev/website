@@ -19,9 +19,9 @@ describe('contact command', () => {
     const result = cmd!.execute([], makeCtx({ locale: 'en', t: makeRealT('en') }));
     if (result.type === 'jsx') {
       const { container } = render(result.content);
-      const emailLink = container.querySelector('a[href="mailto:hello@matias.dev"]');
+      const emailLink = container.querySelector('a[href="mailto:matiasemrivas@gmail.com"]');
       expect(emailLink).toBeTruthy();
-      expect(container.textContent).toContain('hello@matias.dev');
+      expect(container.textContent).toContain('matiasemrivas@gmail.com');
     }
   });
 
@@ -29,7 +29,7 @@ describe('contact command', () => {
     const result = cmd!.execute([], makeCtx({ locale: 'en', t: makeRealT('en') }));
     if (result.type === 'jsx') {
       const { container } = render(result.content);
-      const link = container.querySelector('a[href="https://linkedin.com/in/matiasrivas"]');
+      const link = container.querySelector('a[href="https://linkedin.com/in/matiasrivasdev"]');
       expect(link).toBeTruthy();
       expect(link?.getAttribute('target')).toBe('_blank');
     }
@@ -39,7 +39,7 @@ describe('contact command', () => {
     const result = cmd!.execute([], makeCtx({ locale: 'en', t: makeRealT('en') }));
     if (result.type === 'jsx') {
       const { container } = render(result.content);
-      const link = container.querySelector('a[href="https://github.com/matiasemrivas"]');
+      const link = container.querySelector('a[href="https://github.com/mrivas-dev"]');
       expect(link).toBeTruthy();
       expect(link?.getAttribute('target')).toBe('_blank');
     }
