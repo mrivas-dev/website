@@ -60,4 +60,28 @@ describe('experience command', () => {
       expect(renderJsxText(en.content)).not.toBe(renderJsxText(es.content));
     }
   });
+
+  it('--full lists every company from the profile', () => {
+    const result = cmd!.execute(['--full'], makeCtx({ locale: 'en', t: makeRealT('en') }));
+    if (result.type === 'jsx') {
+      const text = renderJsxText(result.content);
+      [
+        'AppDirect',
+        'Digital House',
+        'BTCJ',
+        'EcomExperts',
+        'Tres Erres Software',
+        'Grifo Creativo',
+      ].forEach((company) => {
+        expect(text).toContain(company);
+      });
+    }
+  });
+
+  it('--full covers the earliest role year', () => {
+    const result = cmd!.execute(['--full'], makeCtx({ locale: 'en', t: makeRealT('en') }));
+    if (result.type === 'jsx') {
+      expect(renderJsxText(result.content)).toContain('2017');
+    }
+  });
 });
