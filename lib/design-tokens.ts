@@ -222,7 +222,7 @@ export const designTokens: DesignTokens = {
       caret: '#23d18b',
       fontFamily: "'SF Mono', ui-monospace, 'Cascadia Mono', monospace",
       fontSize: '14px',
-      fontSizeMobile: '15px',
+      fontSizeMobile: '16px',
       lineHeight: '1.7',
       inputBorderTop: '1px solid rgba(255,255,255,0.06)',
     },
@@ -328,7 +328,7 @@ export const designTokens: DesignTokens = {
       caret: '#4e9a06',
       fontFamily: "'Ubuntu Mono', 'Fira Code', monospace",
       fontSize: '14px',
-      fontSizeMobile: '15px',
+      fontSizeMobile: '16px',
       lineHeight: '1.7',
       inputBorderTop: '1px solid rgba(255,255,255,0.06)',
     },
@@ -434,7 +434,7 @@ export const designTokens: DesignTokens = {
       caret: '#cccccc',
       fontFamily: "Consolas, 'Cascadia Code', monospace",
       fontSize: '14px',
-      fontSizeMobile: '15px',
+      fontSizeMobile: '16px',
       lineHeight: '1.7',
       inputBorderTop: '1px solid rgba(255,255,255,0.06)',
     },
@@ -532,7 +532,10 @@ export function applyTerminalCssVars(
     '--terminal-font-size',
     isMobile ? terminal.fontSizeMobile : terminal.fontSize,
   );
-  element.style.setProperty('--terminal-line-height', terminal.lineHeight);
+  element.style.setProperty(
+    '--terminal-line-height',
+    isMobile ? '1.6' : terminal.lineHeight,
+  );
   element.style.setProperty('--terminal-font-family', terminal.fontFamily);
   element.style.setProperty('--chrome-title-bar-bg', chrome.titleBarBackground);
   element.style.setProperty(

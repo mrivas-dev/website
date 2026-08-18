@@ -23,6 +23,6 @@ export const about: Record<Locale, AboutContent> = {
     yearsOfExperience: 10,
     intro: 'Hola, soy Matías — Software Engineering Manager liderando equipos que construyen productos escalables.',
     summary:
-      'Ingeniero de software inquieto con más de 10 años de experiencia práctica en desarrollo frontend, principalmente con librerías y frameworks basados en JavaScript (ReactJS, Angular), pero también disfrutando desafíos en Backend y DevOps. Actualmente en una de las principales empresas SaaS, gestionando proyectos con éxito mientras ayudo a los equipos a crecer. Destaco en entornos que fomentan la innovación, la colaboración y la mejora continua, liderando equipos para entregar aplicaciones escalables y de alta calidad.',
+      'Ingeniero de software con más de 10 años de experiencia práctica en desarrollo frontend, principalmente con librerías y frameworks basados en JavaScript (ReactJS, Angular), pero también disfrutando desafíos en Backend y DevOps. Actualmente en una de las principales empresas SaaS, gestionando proyectos con éxito mientras ayudo a los equipos a crecer. Destaco en entornos que fomentan la innovación, la colaboración y la mejora continua, liderando equipos para entregar aplicaciones escalables y de alta calidad.',
   },
 };

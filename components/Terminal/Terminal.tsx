@@ -102,6 +102,22 @@ export function Terminal() {
   }, [focusInput]);
 
   useEffect(() => {
+    const viewport = window.visualViewport;
+    if (!viewport) return;
+
+    const updateAppHeight = () => {
+      document.documentElement.style.setProperty(
+        '--app-height',
+        `${viewport.height}px`,
+      );
+    };
+
+    updateAppHeight();
+    viewport.addEventListener('resize', updateAppHeight);
+    return () => viewport.removeEventListener('resize', updateAppHeight);
+  }, []);
+
+  useEffect(() => {
     if (!os || hasBooted.current) return;
     hasBooted.current = true;
 

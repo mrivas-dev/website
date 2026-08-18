@@ -1,5 +1,8 @@
+import React from 'react';
+import { render } from '@testing-library/react';
 import '@/components/commands/about';
 import { getCommand } from '@/lib/command-registry';
+import { ASCII_PORTRAIT } from '@/lib/content/ascii-portrait';
 import { makeCtx, makeRealT, renderJsxText } from '../../helpers';
 
 describe('about command', () => {
@@ -45,5 +48,19 @@ describe('about command', () => {
       expect(text).toContain('resume');
       expect(text).toContain('experience');
     }
+  });
+
+  it('renders the ASCII portrait above the name', () => {
+    const result = cmd!.execute([], makeCtx({ locale: 'en', t: makeRealT('en') }));
+    expect(result.type).toBe('jsx');
+    if (result.type !== 'jsx') return;
+
+    const { getByTestId } = render(
+      React.createElement(React.Fragment, null, result.content),
+    );
+    const portrait = getByTestId('ascii-art');
+    const firstRow = ASCII_PORTRAIT.trimStart().split('\n')[0];
+    expect(portrait.textContent).toContain(firstRow.trim());
+    expect(portrait.textContent).toContain('E N G I N E E R I N G');
   });
 });

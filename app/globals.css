@@ -91,7 +91,7 @@ body {
   align-items: center;
   justify-content: center;
   width: 100vw;
-  height: 100dvh;
+  height: var(--app-height, 100dvh);
   min-height: 100vh;
   padding: 24px;
   box-sizing: border-box;
@@ -435,15 +435,67 @@ body {
   flex-direction: column;
 }
 
+.ascii-art-fit {
+  width: 100%;
+  overflow: hidden;
+  margin: 0 0 12px;
+}
+
+.ascii-art {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  overflow: visible;
+  font-family: var(--terminal-font-family);
+  font-size: 13px;
+  line-height: 1.1;
+  color: var(--terminal-fg);
+  opacity: 0.85;
+  transform-origin: top left;
+}
+
 .tap-hint {
   display: none;
 }
 
-@media (max-width: 768px) {
+@media (min-width: 769px) and (max-width: 1024px) {
   :root {
     --terminal-font-size: 15px;
+    --terminal-line-height: 1.65;
+  }
+
+  .chrome-title,
+  .chrome-bar-windows .chrome-title-left {
+    font-size: 13px;
+  }
+
+  .terminal-window {
+    width: min(720px, 100%);
+  }
+
+  .ascii-art {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --terminal-font-size: 16px;
+    --terminal-line-height: 1.6;
     --chrome-title-bar-height: 36px;
     --window-radius: 14px;
+  }
+
+  html,
+  body {
+    overflow: hidden;
+    height: var(--app-height, 100dvh);
+  }
+
+  .chrome-title,
+  .chrome-bar-windows .chrome-title-left {
+    font-size: 14px;
   }
 
   .terminal-window[data-os='linux'] {
@@ -461,24 +513,33 @@ body {
 
   .terminal-page {
     padding: 0;
+    min-height: 0;
+    height: var(--app-height, 100dvh);
   }
 
   .terminal-window {
     width: 100%;
-    max-height: 100dvh;
+    height: var(--app-height, 100dvh);
+    max-height: var(--app-height, 100dvh);
     border-radius: 0;
     box-shadow: none;
   }
 
   .terminal-body {
-    min-height: 100dvh;
-    max-height: 100dvh;
+    flex: 1;
+    min-height: 0;
+    max-height: none;
     padding: 18px 18px 8px;
   }
 
   .terminal-input-area {
     padding: 8px 18px 32px;
     padding-bottom: calc(32px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .terminal-autocomplete {
+    max-height: 40vh;
+    overflow-y: auto;
   }
 
   .terminal-output::-webkit-scrollbar {
@@ -489,10 +550,15 @@ body {
     background: rgba(255, 255, 255, 0.07);
   }
 
+  .ascii-art {
+    font-size: 13px;
+    max-height: none;
+  }
+
   .tap-hint {
     display: block;
     position: absolute;
-    bottom: 80px;
+    bottom: 72px;
     left: 50%;
     transform: translateX(-50%);
     background: var(--tap-hint-bg);
@@ -501,7 +567,7 @@ body {
     padding: 6px 20px;
     color: var(--tap-hint-color);
     font-family: var(--terminal-font-family);
-    font-size: 11px;
+    font-size: 12px;
     letter-spacing: 0.12em;
     text-transform: uppercase;
     white-space: nowrap;

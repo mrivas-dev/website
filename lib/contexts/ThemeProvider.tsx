@@ -3,7 +3,46 @@
 import { useEffect } from 'react';
 import { useOS } from '@/lib/contexts/OSContext';
 import { themes } from '@/components/themes';
-import { applyTerminalCssVars, designTokens } from '@/lib/design-tokens';
+import {
+  applyTerminalCssVars,
+  designTokens,
+  MOBILE_BREAKPOINT_PX,
+} from '@/lib/design-tokens';
+
+function applyThemeVars(os: NonNullable<ReturnType<typeof useOS>['os']>, mobile: boolean) {
+  const theme = themes[os];
+  const tokens = designTokens[os];
+  const root = document.documentElement;
+
+  applyTerminalCssVars(root, os, { mobile });
+
+  root.style.setProperty('--terminal-fg', theme.foreground);
+  root.style.setProperty('--terminal-dimmed', theme.dimmed);
+  root.style.setProperty('--terminal-error', theme.error);
+  root.style.setProperty('--terminal-success', theme.success);
+  root.style.setProperty('--terminal-border-radius', theme.borderRadius);
+  root.style.setProperty('--page-wallpaper', `url("${theme.wallpaper}")`);
+
+  const ac = tokens.autocomplete;
+  root.style.setProperty('--autocomplete-bg', ac.background);
+  root.style.setProperty('--autocomplete-border-top', ac.borderTop);
+  root.style.setProperty('--autocomplete-active-bg', ac.activeBackground);
+  root.style.setProperty('--autocomplete-active-command', ac.activeCommand);
+  root.style.setProperty('--autocomplete-active-desc', ac.activeDescription);
+  root.style.setProperty('--autocomplete-inactive-command', ac.inactiveCommand);
+  root.style.setProperty('--autocomplete-inactive-desc', ac.inactiveDescription);
+
+  const out = tokens.output;
+  root.style.setProperty('--output-heading', out.heading);
+  root.style.setProperty('--output-meta', out.meta);
+  root.style.setProperty('--output-link', out.link);
+  root.style.setProperty('--output-divider', out.divider);
+
+  const mobileTokens = tokens.mobile;
+  root.style.setProperty('--tap-hint-bg', mobileTokens.hint.background);
+  root.style.setProperty('--tap-hint-border', mobileTokens.hint.border);
+  root.style.setProperty('--tap-hint-color', mobileTokens.hint.color);
+}
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const { os } = useOS();
@@ -11,42 +50,23 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (!os) return;
 
-    const theme = themes[os];
-    const tokens = designTokens[os];
-    const root = document.documentElement;
-    const isMobile =
+    const media =
       typeof window.matchMedia === 'function'
-        ? window.matchMedia('(max-width: 768px)').matches
-        : false;
+        ? window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT_PX}px)`)
+        : null;
 
-    applyTerminalCssVars(root, os, { mobile: isMobile });
+    const apply = (mobile: boolean) => applyThemeVars(os, mobile);
 
-    root.style.setProperty('--terminal-fg', theme.foreground);
-    root.style.setProperty('--terminal-dimmed', theme.dimmed);
-    root.style.setProperty('--terminal-error', theme.error);
-    root.style.setProperty('--terminal-success', theme.success);
-    root.style.setProperty('--terminal-border-radius', theme.borderRadius);
-    root.style.setProperty('--page-wallpaper', `url("${theme.wallpaper}")`);
+    apply(media?.matches ?? false);
 
-    const ac = tokens.autocomplete;
-    root.style.setProperty('--autocomplete-bg', ac.background);
-    root.style.setProperty('--autocomplete-border-top', ac.borderTop);
-    root.style.setProperty('--autocomplete-active-bg', ac.activeBackground);
-    root.style.setProperty('--autocomplete-active-command', ac.activeCommand);
-    root.style.setProperty('--autocomplete-active-desc', ac.activeDescription);
-    root.style.setProperty('--autocomplete-inactive-command', ac.inactiveCommand);
-    root.style.setProperty('--autocomplete-inactive-desc', ac.inactiveDescription);
+    if (!media) return;
 
-    const out = tokens.output;
-    root.style.setProperty('--output-heading', out.heading);
-    root.style.setProperty('--output-meta', out.meta);
-    root.style.setProperty('--output-link', out.link);
-    root.style.setProperty('--output-divider', out.divider);
+    const handleChange = (event: MediaQueryListEvent) => {
+      apply(event.matches);
+    };
 
-    const mobile = tokens.mobile;
-    root.style.setProperty('--tap-hint-bg', mobile.hint.background);
-    root.style.setProperty('--tap-hint-border', mobile.hint.border);
-    root.style.setProperty('--tap-hint-color', mobile.hint.color);
+    media.addEventListener('change', handleChange);
+    return () => media.removeEventListener('change', handleChange);
   }, [os]);
 
   return <>{children}</>;

@@ -1,5 +1,7 @@
 import { registerCommand } from '@/lib/command-registry';
 import { about as aboutContent } from '@/lib/content/about';
+import { ASCII_PORTRAIT } from '@/lib/content/ascii-portrait';
+import { AsciiArt } from '@/components/Terminal/AsciiArt';
 import {
   OutputBody,
   OutputCard,
@@ -20,6 +22,10 @@ registerCommand({
       type: 'jsx',
       content: (
         <OutputCard>
+          <AsciiArt
+            art={ASCII_PORTRAIT}
+            label={`${data.name} — ${data.role}`}
+          />
           <OutputBody strong>{data.name}</OutputBody>
           <OutputBody strong>
             {data.role} · {years}
